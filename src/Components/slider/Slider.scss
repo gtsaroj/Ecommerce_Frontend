@@ -1,0 +1,50 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+.slider {
+    height: calc(100vh - 80px);
+    width: 100vw;
+    position: relative;
+    overflow: hidden;
+
+    .container {
+        display: flex;
+        transition: all 0.80s ease-in-out;
+        width: 100vw;
+        height: 100%;
+
+        .imageSrc {
+            width: 100vw;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+
+    .icons {
+        width: 100px;
+        display: flex;
+        position: absolute;
+        left: 0px;
+        right: 0px;
+        bottom: 5rem;
+        margin: auto;
+        gap: 10px;
+
+        .icon {
+            width: 50px;
+            height: 50px;
+            border: 1px solid #999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+        }
+
+        .icon:hover {
+            background: #c6b4b4;
+
+        }
+    }
+}

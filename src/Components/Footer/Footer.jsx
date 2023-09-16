@@ -1,50 +1,53 @@
 import React from 'react';
+import { Link } from 'react-router-dom'
 import './footer.scss'
 
 const Footer = () => {
   return (
     <div className='footer'>
-     <div className="top">
-      <div className="item">
-        <h1>Categories</h1>
-        <span>Women</span>
-        <span>Men</span>
-        <span>Shoes</span>
-        <span>Accesories</span>
-        <span>New Arrivals</span>
-      </div>
-      <div className="item">
-        <h3>Links</h3>
-        <span></span>
-        <span>FAQ</span>
-        <span>Pages</span>
-        <span>Stores</span>
-        <span>Compare</span>
-        <span>Cookies</span>
-      </div>
-      <div className="item">
-        <h3>About Us</h3>
-        <span>Lorem ipsum dolor sit amet,
-           consectetur adipisicing elit. Ad consequatur repudia
-           ndae, animi ducimus facere neque error? Autem volup
-           tates animi officia!</span>
-      </div>
-      <div className="item">
-        <h3>Contact</h3>
-        <span>Lorem ipsum dolor sit a
-          met consectetur adipisicing elit. Cum ex impedit modi eveniet nisi tenetur possimu
-          s in nostrum laudantium corrupti?</span>
-      </div>
+      <div className="top">
+        <div className="item">
+          <h3>Categories</h3>
+          <div className="box">
+            <span> <Link to="/products/:id" className='link' >products</Link></span>
+            <span><Link to="/products/:id" className='link'>Men</Link></span>
+            <span><Link to="/products/:id" className='link'>Shoes</Link></span>
+            <span><Link to="/products/:id" className='link'>Accesories</Link></span>
+            <span><Link to="/products/:id" className='link'>New </Link></span>
+          </div>
+        </div>
+        <div className="item">
+          <h3>Links</h3>
+          <div className="box">
+            <span> <Link to="/products/:id" className='link' > products</Link></span>
+            <span><Link to="/products/:id" className='link'>Men</Link></span>
+            <span><Link to="/products/:id" className='link'>Shoes</Link></span>
+            <span><Link to="/products/:id" className='link'>Accesories</Link></span>
+            <span><Link to="/products/:id" className='link'>New </Link></span>
+          </div>
+        </div>
+        <div className="item">
+          <h3>About Us</h3>
+          <div className="box">
+            <span className='link'>Welcome to Online Saroj Mart, founded by Saroj GT. We
+              offer a reliable online shopping </span>
+          </div>
+        </div>
+        <div className="item">
+          <h3>Contact</h3>
+          <div className="box">
+            <span className='link'>Lorem ipsum dolor sit a
+              met consectetur adipisicing elit. Cum </span>
+          </div>
+        </div>
 
-     </div>
-     <div className="bottom">
-      <div className="left">
-        copyright saroj-coder
       </div>
-      <div className="right">
-        <img src='/client/ecommerce-site/public/photos/payment.jpg' alt="" />
+      <div className="bottom">
+        <div className="left">
+          copyright saroj-coder
+        </div>
+
       </div>
-     </div>
     </div>
   )
 }

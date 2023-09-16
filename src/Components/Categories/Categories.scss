@@ -3,6 +3,18 @@
     height: 80vh;
     gap: 10px;
     min-width: 10px;
+    margin: 5px 7px 5px 7px;
+
+    @media screen and (max-width:768px) {
+        width: 160%;
+        height: 26rem;
+    }
+
+    @media screen and (max-width:450px) {
+        width: 304%;
+        height: 30rem;
+    }
+
 
     .col {
         flex: 1;
@@ -23,14 +35,32 @@
 
             button {
                 position: absolute;
-                width: 100px;
-                height: 50px;
+                width: 60px;
+                height: 30px;
                 padding: 10px;
+                background-color: rgba(0, 0, 0, 0);
                 top: 0;
                 bottom: 0;
                 left: 0;
+                border: none;
                 right: 0;
                 margin: auto;
+
+                .link {
+                    font-size: 15px;
+                    margin: auto;
+                    text-align: center;
+                    background-color: whitesmoke;
+                    padding: 5px 15px 5px 15px;
+                    border-radius: 5px;
+                    transition: 0.1s;
+                    text-decoration: none;
+                }
+
+                .link:hover {
+                    background: #000000dc;
+                    color: white;
+                }
             }
 
             img {

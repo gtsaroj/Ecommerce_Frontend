@@ -1,46 +1,45 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Slider.scss';
-import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
 const Slider = () => {
+  const pathFile = [
+    require('../photos/promote.jpg'),
+    require('../photos/promote2.jpg'),
+    require('../photos/promote3.jpg'),
+  ];
 
-    const data = [
-        
-        "https://www.angelxp.eu/image/Twitter/nature/plage03.jpg",
-        "https://www.angelxp.eu/image/Twitter/nature/plage02.jpg",
-        "https://marketplace.canva.com/EAFK_XV_Ht8/1/0/1600w/canva-black-typographic-retro-moon-and-astronaut-twitter-header-0NTqoXhUtsE.jpg",
-    ]
+  const [currentSlide, setCurrentSlide] = useState(0);
 
-    const[currentSlide, setcurrentSlide] = useState(0);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      // Calculate the next slide index in a loop
+      const nextSlide = (currentSlide + 1) % pathFile.length;
+      setCurrentSlide(nextSlide);
+    }, 5000); // Change slide every 5 seconds
 
-    function prevSlide(){
-      setcurrentSlide(currentSlide === 0 ? 2 : (prev)=> prev-1);
-      console.log(setcurrentSlide)
-    }
-    function nextSlide(){
-      setcurrentSlide(currentSlide === 2 ? 0 : (next)=>next+1);
-      console.log(setcurrentSlide)
-    }
-    
-    return (
-    <div className="slider">
-        <div className="container" style={{transform: `translateX(-${currentSlide * 100}vw)`}}>
-<img className="imageSrc" src={data[0]} alt="" />
-<img className="imageSrc" src={data[1]} alt="" />
-<img className="imageSrc" src={data[2]} alt="" />
+    return () => {
+      clearInterval(interval); // Clean up the interval on component unmount
+    };
+  }, [currentSlide, pathFile]);
+
+  return (
+    <div className='slider'>
+      <div className="slides">
+        {pathFile.map((slide, index) => (
+          <div
+            key={index}
+            className={`slide ${index === currentSlide ? 'current' : ''}`}
+            style={{
+              transition: 'transform 0.5s ease-in-out',
+              transform: `translateX(-${currentSlide * 100}%)`, // Adjust the slide width as needed
+            }}
+          >
+            <img src={slide} alt={`Slide ${index}`} />
+          </div>
+        ))}
       </div>
-        <div className="icons">
-            <div className="icon" onClick={prevSlide}>
-                <KeyboardArrowLeftIcon/>
-                </div>
-                <div className="icon" onClick={nextSlide}>
-                    <KeyboardArrowRightIcon/>
-                
-            </div>
-              </div>
-        </div>
-  )
-}
+    </div>
+  );
+};
 
-export default Slider
+export default Slider;

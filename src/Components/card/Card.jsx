@@ -2,25 +2,25 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import './Card.scss';
 
-const Card = (props) => {
+const Card = ({ props }) => {
   return (
-  < Link className="link" to={`/product/${props.id}`}>
-<div className="card">
-    <div className="image">
-        {props.isNew && <span>New season</span>}
-    <img src={props.img} alt="" className="mainImg" />
-    <img src={props.img2} alt="" className="secondImg" />
-    </div>
+    < Link className="link" to={`/product/${props.id}`}>
+      <div className="card">
+        <div className="image">
+          {props.attributes.IsNew && <span>New season</span>}
+          <img src={process.env.REACT_APP_API_UPLOAD + props?.attributes?.Img?.data?.attributes?.url} alt="" className="mainImg" />
+          <img src={process.env.REACT_APP_API_UPLOAD + props?.attributes?.Img2?.data?.attributes?.url} alt="" className="secondImg" />
+        </div>
 
-<h2>{props.title}</h2>
-<div className="prices">
-    <h3>${props.oldPrice}</h3>
-    <h3>${props.newPrice}</h3>
-</div>
-</div>
+        <h2>{props.attributes.title}</h2>
+        <div className="prices">
+          <h3>${props.attributes.oldPrice}</h3>
+          <h3>${props.attributes.newPrice}</h3>
+        </div>
+      </div>
 
-</Link>
-   
+    </Link>
+
   )
 }
 

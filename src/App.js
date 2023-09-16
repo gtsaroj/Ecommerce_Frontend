@@ -1,5 +1,4 @@
 import React from "react";
-import "./App.scss";
 import {
   createBrowserRouter,
   Outlet,
@@ -14,7 +13,7 @@ import Footer from "./Components/Footer/Footer";
 
 const Layout = () => {
   return (
-    <div className="App">
+    <div className="homePage">
 
       <Navbar />
       <Outlet />
@@ -24,26 +23,32 @@ const Layout = () => {
   )
 }
 
+
 function App() {
 
-  const router = createBrowserRouter([
 
+
+
+  const router = createBrowserRouter([
     {
       path: '/',
       element: <Layout />,
       children: [
         {
-          path: "/Products:id",
+          path: "products/:id", // Use "products/:id" instead of "/Products/:id"
           element: <Products />
         },
         {
-          path: "/Product:id",
+          path: "product/:id", // Use "product/:id" instead of "/Product/:id"
           element: <Product />
         },
         {
           path: "/",
           element: <Home />
         },
+
+
+
       ]
     }
 

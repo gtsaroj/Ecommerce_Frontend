@@ -8,7 +8,7 @@ import useFetch from '../../Hooks/useFetch'
 
 const Products = () => {
 
-  const [maxPrice, setmaxPrice] = useState(1000)
+  const [maxPrice, setmaxPrice] = useState(100000)
   const [Sort, setSort] = useState(null)
   const [selectedSubCats, setSelectedSubCats] = useState([])
 

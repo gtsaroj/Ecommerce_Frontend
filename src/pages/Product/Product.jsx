@@ -27,7 +27,7 @@ const Product = () => {
 
       id: data.id,
       title: data?.attributes?.title,
-      Img: process.env.REACT_APP_API_UPLOAD + data?.attributes?.Img?.data?.attributes?.url,
+      Img: data?.attributes?.Img?.data?.attributes?.url,
       desc: data?.attributes?.desc,
       newPrice: data?.attributes?.newPrice,
       quantity,

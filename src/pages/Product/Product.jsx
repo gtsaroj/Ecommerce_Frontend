@@ -39,11 +39,11 @@ const Product = () => {
     <div className="product">
       {Loading ? "Loading" : (<><div className="left">
         <div className="images">
-          <img src={process.env.REACT_APP_API_UPLOAD + data?.attributes.Img?.data?.attributes?.url} alt="" onClick={(e) => setselectedImg(`Img`)} />
-          <img src={process.env.REACT_APP_API_UPLOAD + data?.attributes.Img2?.data?.attributes?.url} alt="" onClick={(e) => setselectedImg(`Img2`)} />
+          <img src={data?.attributes.Img?.data?.attributes?.url} alt="" onClick={(e) => setselectedImg(`Img`)} />
+          <img src={ data?.attributes.Img2?.data?.attributes?.url} alt="" onClick={(e) => setselectedImg(`Img2`)} />
         </div>
         <div className="mainImg">
-          <img src={process.env.REACT_APP_API_UPLOAD + data?.attributes[selectedImg]?.data?.attributes?.url} alt="" />
+          <img src={ data?.attributes[selectedImg]?.data?.attributes?.url} alt="" />
         </div>
       </div>
         <div className="right">

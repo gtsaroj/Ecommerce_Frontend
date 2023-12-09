@@ -1,44 +1,49 @@
-import React, { useState, useEffect } from 'react';
-import './Slider.scss';
+import React, { useState, useEffect } from "react";
+import "./Slider.scss";
+// Import Swiper React components
+import { Swiper, SwiperSlide } from "swiper/react";
+
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+
+// import required modules
+import { Navigation, Pagination, Mousewheel, Keyboard } from "swiper/modules";
 
 const Slider = () => {
-  const pathFile = [
-    require('../photos/promote.jpg'),
-    require('../photos/promote2.jpg'),
-    require('../photos/promote3.jpg'),
-  ];
-
-  const [currentSlide, setCurrentSlide] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      // Calculate the next slide index in a loop
-      const nextSlide = (currentSlide + 1) % pathFile.length;
-      setCurrentSlide(nextSlide);
-    }, 5000); // Change slide every 5 seconds
-
-    return () => {
-      clearInterval(interval); // Clean up the interval on component unmount
-    };
-  }, [currentSlide, pathFile]);
-
   return (
-    <div className='slider'>
-      <div className="slides">
-        {pathFile.map((slide, index) => (
-          <div
-            key={index}
-            className={`slide ${index === currentSlide ? 'current' : ''}`}
-            style={{
-              transition: 'transform 0.5s ease-in-out',
-              transform: `translateX(-${currentSlide * 100}%)`, // Adjust the slide width as needed
-            }}
-          >
-            <img src={slide} alt={`Slide ${index}`} />
-          </div>
-        ))}
-      </div>
-    </div>
+    <>
+      <Swiper
+        cssMode={true}
+        navigation={true}
+        pagination={true}
+        mousewheel={true}
+        keyboard={true}
+        modules={[Navigation, Pagination, Mousewheel, Keyboard]}
+        className="mySwiper"
+      >
+        <SwiperSlide className="swiper">
+          <img
+            src="https://img.freepik.com/premium-photo/happy-teen-child-with-shopping-bag-blue-yellow_474717-130139.jpg?w=826"
+            alt=" "
+          />
+        </SwiperSlide>
+
+        <SwiperSlide className="swiper">
+          <img
+            src="https://media.licdn.com/dms/image/D5612AQHyHk53qnurYQ/article-cover_image-shrink_720_1280/0/1699099415077?e=2147483647&v=beta&t=6wxCocTcq48YJ6xt6NqI7LjvcNZDgExueNDqORcXmKA"
+            alt=""
+          />
+        </SwiperSlide>
+        <SwiperSlide className="swiper">
+          <img
+            src="https://img.freepik.com/free-psd/e-commerce-discount-facebook-template_23-2149937090.jpg?size=626&ext=jpg"
+            alt=""
+          />
+        </SwiperSlide>
+      </Swiper>
+    </>
   );
 };
 

@@ -8,8 +8,8 @@ const Card = ({ props }) => {
       <div className="card">
         <div className="image">
           {props.attributes.IsNew && <span>New season</span>}
-          <img src={props?.attributes?.Img?.data?.attributes?.url} alt="" className="mainImg" />
-          <img src={props?.attributes?.Img2?.data?.attributes?.url} alt="" className="secondImg" />
+          <img src={props?.attributes?.img?.data?.attributes?.url} alt="" className="mainImg" />
+          <img src={props?.attributes?.img2?.data?.attributes?.url} alt="" className="secondImg" />
         </div>
 
         <h2>{props.attributes.title}</h2>

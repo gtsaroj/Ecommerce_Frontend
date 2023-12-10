@@ -10,8 +10,8 @@ const useFetch = (url) => {
         const fetch_api_data = async () => {
             try {
                 setLoading(true);
-                const requestInstance = makeRequest();
-                const res = await requestInstance.get(url);
+                // const requestInstance = makeRequest();
+                const res = await makeRequest().get(url);
                 setData(res.data.data);
             } catch (error) {
                 console.log(`${error}`);

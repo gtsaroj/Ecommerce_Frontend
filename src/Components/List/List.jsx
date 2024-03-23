@@ -10,11 +10,11 @@ const List = ({ sort, maxPrice, subCats, catId }) => {
 
 
   const sortRange = `&sort=pricenew:${sort}`
-  const subCatsfilters = subCats.map((item) => `&[filters][sub_categories][id][$eq]=${item}`)
+  const subCatsfilters = subCats.map((item) => `&[filters][subcategories][id][$eq]=${item}`)
 
   const { data, Loading, Error } = useFetch(
     `/api/products?populate=*&[filters][categories][:id]=${catId}${subCatsfilters}
-    &[filters][newPrice][$lte]= ${maxPrice}${sortRange}`
+    &[filters][newprice][$lte]= ${maxPrice}${sortRange}`
   );
 
 

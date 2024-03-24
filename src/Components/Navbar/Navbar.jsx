@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Navbar.scss";
 import Cart from "../Cart/Cart";
 import { useSelector } from "react-redux/es/hooks/useSelector";
@@ -13,10 +13,12 @@ import {
   MenuIcon,
   Search,
   TwitchIcon,
+  ShoppingCart,
   X,
 } from "lucide-react";
 import NepalImage from "../photos/flag.png";
 import { useNavigate } from "react-router-dom";
+import useFetch from "../../Hooks/useFetch";
 
 export const AuthNavbar = () => {
   const navigate = useNavigate();
@@ -56,11 +58,24 @@ export const AuthNavbar = () => {
 };
 
 const Navbar = () => {
-  const products = useSelector((state) => state.cart.products);
+  const { data } = useFetch("/api/products?populate=*");
+  const [filterProduct, setFilteredProduct] = useState();
+  const [storeFilteredData, setStoreFilteredData] = useState();
 
   const [open, setOpen] = useState(false);
 
   const [menu, setMenu] = useState(false);
+
+  useEffect(() => {
+    const filteringProduct = data?.filter((singleProduct) =>
+      singleProduct.attributes.title
+        .toLowerCase()
+        .includes(filterProduct.toLowerCase())
+    );
+
+    setStoreFilteredData(filteringProduct);
+  }, [data, filterProduct]);
+
 
   return (
     <div className="flex flex-col items-center bg-[var(--light-text)] justify-center gap-2 sticky z-[10] top-[0px] shadow-md py-2">
@@ -84,13 +99,27 @@ const Navbar = () => {
           </div>
         </div>
 
-        <div className=" sm:w-[230px] w-[200px] sm:px-5 px-3 flex bg-[white] flex-row-reverse items-center justify-center border-[1px] rounded-full border-[var(--dark-secondary-text)]">
+        <div
+          className={` sm:w-[230px] w-[200px] sm:px-5 px-3 ${
+            open
+              ? ""
+              : " bg-[white] border-[1px] rounded-full border-[var(--dark-secondary-text)]"
+          }  flex flex-row-reverse items-center justify-center `}
+        >
           <input
             type="search"
             placeholder="Search Product"
-            className=" text-sm w-full py-1 sm:py-2 px-5 outline-none rounded-tr-full rounded-br-full "
+            onChange={(event) => setFilteredProduct(event.target.value)}
+            className={`text-sm w-full py-1 sm:py-2 px-5 outline-none rounded-tr-full rounded-br-full ${
+              open ? "hidden" : ""
+            } `}
           />
-          <Search color="black" className=" " />
+
+          <Search
+            onClick={() => setOpen(!open)}
+            color="black"
+            className={`cursor-pointer `}
+          />
         </div>
         <div className="hidden items-center gap-5 md:flex">
           <div className="text-xl">New Arrivals</div>
@@ -108,6 +137,27 @@ const Navbar = () => {
           <button>
             <CircleUser />
           </button>
+        </div>
+        <div
+          className={` px-6 top-14 absolute left-0 right-0 w-full flex justify-center items-center ${
+            open ? "hidden" : ""
+          }`}
+        >
+          <div className=" w-[700px] overflow-y-auto flex flex-col items-stretch justify-start py-5 gap-5   h-[400px] bg-[white]   rounded-md">
+
+            {
+              storeFilteredData?.map((singlProduct) => (
+                <div key={singlProduct.id} className="flex items-center justify-between px-16">
+                  <img className="size-9 rounded-md" src={singlProduct?.attributes.img.data.attributes.url} alt="" />
+                  <h1 className="text-[17px] text-[var(--dark-secondary-color)]"> {singlProduct.attributes.title }</h1>
+                  <button className="px-7 py-1 bg-[var(--secondary-color)]">
+                    <ShoppingCart/>
+                   </button>
+                  
+                </div>
+              ))
+            }
+          </div>
         </div>
       </div>
     </div>

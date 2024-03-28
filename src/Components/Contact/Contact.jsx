@@ -9,7 +9,7 @@ import "./Contact.scss"
 
 const Contact = () => {
   return (
- <div className="contact">
+ <div className="contact w-full ">
     <div className="wrapper">
         <span>BE IN TOUCH WITH US</span>
             <div className="mail">

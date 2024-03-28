@@ -2,7 +2,6 @@ import React from "react";
 import "./home.scss";
 import Slider from "../../Components/slider/Slider";
 import FeaturedProducts from "../../Components/Features/FeaturedProducts";
-import Contact from "../../Components/Contact/Contact";
 import { ChevronRight } from "lucide-react";
 import useFetch from "../../Hooks/useFetch";
 import { useNavigate } from "react-router-dom";
@@ -22,7 +21,7 @@ export const Categories = () => {
       name: "Women",
     },
   ];
-  const { data } = useFetch(`/api/categories`);
+  const { data } = useFetch(`/categories`);
   const navigate = useNavigate();
 
   const handleChange = (categoryType) => {
@@ -62,10 +61,8 @@ const Home = () => {
       <Slider />
       <div className="flex flex-col-reverse  sm:flex-row-reverse justify-center w-full items-center px-5">
         <FeaturedProducts type="Featured Products" />
-        <Categories />
       </div>
       <FeaturedProducts type="Trending Proudcts" />
-      <Contact />
     </div>
   );
 };

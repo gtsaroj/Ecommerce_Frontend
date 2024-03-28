@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import useFetch from "../../Hooks/useFetch";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../redux/cartReducer";
+import ReactLoading from "react-loading";
 
 const Product = () => {
   const [selectedImg, setselectedImg] = useState(`img`);
@@ -15,9 +16,7 @@ const Product = () => {
 
   const id = useParams().id;
 
-  const { data, Loading, Error } = useFetch(`/api/products/${id}?populate=*`);
-
-  // use of dispatch
+  const { data, loading, error } = useFetch(`/products/${id}?populate=*`);
   const dispatch = useDispatch();
 
   const handleClick = () => {
@@ -34,75 +33,80 @@ const Product = () => {
   };
 
   return (
-    <div className="product">
-      {Loading ? (
-        "Loading"
-      ) : (
-        <>
-          <div className="left">
-            <div className="images">
-              <img
-                src={data?.attributes.img?.data?.attributes?.url}
-                alt=""
-                onClick={(e) => setselectedImg(`img`)}
-              />
-              <img
-                src={data?.attributes.img2?.data?.attributes?.url}
-                alt=""
-                onClick={(e) => setselectedImg(`img2`)}
-              />
-            </div>
-            <div className="mainImg">
-              <img
-                src={data?.attributes[selectedImg]?.data?.attributes?.url}
-                alt=""
-              />
-            </div>
+    <div className="product relative">
+      <div
+        className={`flex justify-evenly gap-20 items-center w-full ${
+          loading ? "blur-sm" : ""
+        }`}
+      >
+        <div className="left">
+          <div className="images">
+            <img
+              src={data?.attributes.img?.data?.attributes?.url}
+              alt=""
+              onClick={(e) => setselectedImg(`img`)}
+            />
+            <img
+              src={data?.attributes.img2?.data?.attributes?.url}
+              alt=""
+              onClick={(e) => setselectedImg(`img2`)}
+            />
           </div>
-          <div className="right">
-            <h1>{data?.attributes?.title}</h1>
-            <span className="price">{data?.attributes?.newprice}</span>
-            <p>{data?.attributes?.desc}</p>
-            <div className="quantity">
-              <button onClick={() => setquantity((prev) => prev + 1)}>+</button>
-              <h2>{quantity}</h2>
-              <button
-                onClick={() =>
-                  setquantity((prev) => (prev === 1 ? 1 : prev - 1))
-                }
-              >
-                -
-              </button>
-            </div>
-
-            <button className="add" onClick={handleClick}>
-              <AddShoppingCartIcon />
+          <div className="mainImg">
+            <img
+              src={data?.attributes[selectedImg]?.data?.attributes?.url}
+              alt=""
+            />
+          </div>
+        </div>
+        <div className="right">
+          <h1>{data?.attributes?.title}</h1>
+          <span className="price">{data?.attributes?.newprice}</span>
+          <p>{data?.attributes?.desc}</p>
+          <div className="quantity">
+            <button onClick={() => setquantity((prev) => prev + 1)}>+</button>
+            <h2>{quantity}</h2>
+            <button
+              onClick={() => setquantity((prev) => (prev === 1 ? 1 : prev - 1))}
+            >
+              -
             </button>
-            <div className="link">
-              <div className="item">
-                <FavoriteBorderIcon />
-                Add To Wish List
-              </div>
-              <div className="item">
-                <BalanceIcon />
-                Add To COMPARE
-              </div>
+          </div>
+
+          <button className="add" onClick={handleClick}>
+            <AddShoppingCartIcon />
+          </button>
+          <div className="link">
+            <div className="item">
+              <FavoriteBorderIcon />
+              Add To Wish List
             </div>
-            <div className="info">
-              <span>vendor: Polo</span>
-              <span>Product Type: T-shirt</span>
-              <span>Tag: T-shirt, Women, Top</span>
-            </div>
-            <div className="info">
-              <span>Description</span>
-              <hr />
-              <span>Additional Information</span>
-              <hr />
-              <span>FAQ</span>
+            <div className="item">
+              <BalanceIcon />
+              Add To COMPARE
             </div>
           </div>
-        </>
-      )}
+          <div className="info">
+            <span>vendor: Polo</span>
+            <span>Product Type: T-shirt</span>
+            <span>Tag: T-shirt, Women, Top</span>
+          </div>
+          <div className="info">
+            <span>Description</span>
+            <hr />
+            <span>Additional Information</span>
+            <hr />
+            <span>FAQ</span>
+          </div>
+        </div>
+      </div>
+      <div
+        className={`w-full absolute top-36 flex items-center justify-center ${
+          loading ? "flex" : "hidden"
+        }`}
+      >
+        <ReactLoading type="balls" color="black" className="size-44" />
+      </div>
     </div>
   );
 };

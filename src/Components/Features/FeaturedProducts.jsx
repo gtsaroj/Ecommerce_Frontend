@@ -9,7 +9,7 @@ import Card from "../card/Card"
 
 const FeaturedProducts = ({ type }) => {
 
-  const { Loading, data, Error } = useFetch(`/api/products?populate=*&[filters][type][$eq]=${type}`)
+  const { Loading, data, Error } = useFetch(`/products?populate=*&[filters][type][$eq]=${type}`)
 
 data?.map((item)=>(
   console.log(item.attributes.img.data.attributes.url)

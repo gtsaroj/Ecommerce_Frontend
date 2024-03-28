@@ -4,6 +4,8 @@ import "./product.scss";
 import useFetch from "../../Hooks/useFetch";
 import Card from "../../Components/card/Card";
 import { Filter, X } from "lucide-react";
+import ReactLoading from "react-loading";
+import {ShoppingBag} from "lucide-react"
 
 const Products = () => {
   const param = useParams().tag;
@@ -38,10 +40,12 @@ const Products = () => {
     setSelectedSubCats(priceFilterProducts);
   };
 
-  const { data, Loading, Error } = useFetch(`/api/products?populate=*`);
+  const { data, loading, Error } = useFetch(`/products?populate=*`);
 
-  const { data: subcategories } = useFetch("/api/subcategories?populate=*");
+  const { data: subcategories,  error } = useFetch("/subcategories?populate=*");
 
+
+  console.log(selectedSubCats)
   useEffect(() => {
     const FilteringData = data?.filter(
       (product) => product.attributes.tag === param
@@ -63,30 +67,90 @@ const Products = () => {
     );
     setSelectedSubCats(filterProducts);
   };
-  console.log(selectedSubCats);
 
   return (
-    <div className="flex md:flex-row flex-col gap-3  px-2 py-7">
-      <div className=" relative  md:hidden flex justify-end ">
-        <button
-          className="flex flex-col md:hidden"
-          onClick={() => setFiltered(!filtered)}
-        >
-          <Filter />
-        </button>
-        <div
-          className={`left transition-all px-2 bg-[var(--secondary-dark-text)] sm:flex-col absolute h-screen  ${
-            filtered ? "right-[-10px] z-[5]" : "right-[-300px]"
-          }`}
-        >
-          <div className="filterItem">
-            <div
-              className="cursor-pointer flex justify-end"
-              onClick={() => setFiltered(!filtered)}
-            >
-              {" "}
-              <X />
+    <div className={`relative`}>
+      <div
+        className={`flex md:flex-row flex-col gap-3  px-2 py-3 ${
+          loading ? " relative blur-sm" : ""
+        }`}
+      >
+        <div className=" relative  md:hidden flex justify-end ">
+          <button
+            className="flex flex-col md:hidden"
+            onClick={() => setFiltered(!filtered)}
+          >
+            <Filter />
+          </button>
+          <div
+            className={`left transition-all px-2 bg-[var(--secondary-dark-text)] sm:flex-col absolute h-screen  ${
+              filtered ? "right-[-10px] z-[5]" : "right-[-300px]"
+            }`}
+          >
+            <div className="filterItem">
+              <div
+                className="cursor-pointer flex justify-end"
+                onClick={() => setFiltered(!filtered)}
+              >
+                {" "}
+                <X />
+              </div>
+              <h3>Product Categories</h3>
+              {subcategories?.map((item) => (
+                <div className="inputItem" key={item.id}>
+                  <input
+                    type={"checkbox"}
+                    name="unique"
+                    value={item.attributes.title}
+                    onChange={handleChange}
+                  />
+                  <label id={item.title} htmlFor={item.id}>
+                    {item.attributes.title}
+                  </label>
+                </div>
+              ))}
             </div>
+            <div className="filterItem">
+              <h3>Filter by Price</h3>
+              <div className="inputItem py-2 rounded-sm gap-2 bg-slate-500 flex items-center justify-center ">
+                <span>0</span>
+                <input
+                  type="range"
+                  value={maxPrice}
+                  min={0}
+                  max={10000}
+                  onChange={(e) => PriceChange(e.target.value)}
+                />
+                <span>{maxPrice}</span>
+              </div>
+            </div>
+            <div className="filterItem">
+              <h3>Sort by</h3>
+              <div className="flex items-center justify-start gap-2">
+                <input
+                  type="radio"
+                  id="asc"
+                  value="1"
+                  name="price"
+                  onClick={() => lowerToHigher()}
+                />
+                <label htmlFor="asc">Price lowest to highest</label>
+              </div>
+              <div className="flex items-center justify-start gap-2">
+                <input
+                  type="radio"
+                  id="desc"
+                  value="1"
+                  name="price"
+                  onClick={() => higherToLower()}
+                />
+                <label htmlFor="asc">Price highest to lowest</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="left hidden md:flex sm:flex-col">
+          <div className="filterItem">
             <h3>Product Categories</h3>
             {subcategories?.map((item) => (
               <div className="inputItem" key={item.id}>
@@ -140,72 +204,28 @@ const Products = () => {
             </div>
           </div>
         </div>
-      </div>
-      <div className="left hidden md:flex sm:flex-col">
-        <div className="filterItem">
-          <h3>Product Categories</h3>
-          {subcategories?.map((item) => (
-            <div className="inputItem" key={item.id}>
-              <input
-                type={"checkbox"}
-                name="unique"
-                value={item.attributes.title}
-                onChange={handleChange}
-              />
-              <label id={item.title} htmlFor={item.id}>
-                {item.attributes.title}
-              </label>
-            </div>
-          ))}
-        </div>
-        <div className="filterItem">
-          <h3>Filter by Price</h3>
-          <div className="inputItem py-2 rounded-sm gap-2 bg-slate-500 flex items-center justify-center ">
-            <span>0</span>
-            <input
-              type="range"
-              value={maxPrice}
-              min={0}
-              max={10000}
-              onChange={(e) => PriceChange(e.target.value)}
-            />
-            <span>{maxPrice}</span>
-          </div>
-        </div>
-        <div className="filterItem">
-          <h3>Sort by</h3>
-          <div className="flex items-center justify-start gap-2">
-            <input
-              type="radio"
-              id="asc"
-              value="1"
-              name="price"
-              onClick={() => lowerToHigher()}
-            />
-            <label htmlFor="asc">Price lowest to highest</label>
-          </div>
-          <div className="flex items-center justify-start gap-2">
-            <input
-              type="radio"
-              id="desc"
-              value="1"
-              name="price"
-              onClick={() => higherToLower()}
-            />
-            <label htmlFor="asc">Price highest to lowest</label>
-          </div>
-        </div>
-      </div>
-      <div className="right">
-        <img className="cartImg" src={require("./bg.jpg")} alt=" " />
+        <div className="right">
+          <img className="cartImg" src={require("./bg.jpg")} alt=" " />
 
-        <div className="flex justify-center items-center gap-3 flex-wrap">
-          {selectedSubCats
-            ? selectedSubCats?.map((item) => {
-                return <Card props={item} key={item.id} />;
-              })
-            : categories?.map((item) => <Card props={item} key={item.id} />)}
+          <div className="flex justify-center items-center gap-3 flex-wrap">
+            {selectedSubCats
+              ? selectedSubCats?.map((item) => {
+                  return <Card props={item} key={item.id} />;
+                })
+              :
+              categories?.length <= 0 ? <div className="w-full flex flex-col-reverse text-xl items-center justify-center py-10">
+                Product Not Available
+                <ShoppingBag className="size-16"/>
+              </div> : 
+                
+              categories?.map((item) => <Card props={item} key={item.id} />)
+            
+            }
+          </div>
         </div>
+      </div>
+      <div className={`w-full absolute top-36 flex items-center justify-center ${loading ? "flex" : "hidden"}`}>
+        <ReactLoading type="balls" color="black" className="size-44" />
       </div>
     </div>
   );

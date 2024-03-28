@@ -14,6 +14,9 @@ import {
   TwitchIcon,
   ChevronDown,
   X,
+  frown,
+  Smile,
+  Frown,
 } from "lucide-react";
 import NepalImage from "../photos/flag.png";
 import { useNavigate } from "react-router-dom";
@@ -73,7 +76,7 @@ const Navbar = () => {
       URL: "/new arrival",
     },
   ];
-  const { data } = useFetch("/api/products?populate=*");
+  const { data } = useFetch("/products?populate=*");
   const [filterProduct, setFilteredProduct] = useState();
   const [storeFilteredData, setStoreFilteredData] = useState();
   const [openCart, setOpenCart] = useState();
@@ -120,8 +123,8 @@ const Navbar = () => {
           </div>
         </div>
 
-        <div
-          className={` sm:w-[230px] w-[200px] sm:px-5 px-3 ${
+        {/* <div
+          className={` sm:flex hidden  sm:w-[230px] w-[200px] sm:px-5 px-3 ${
             open
               ? ""
               : " bg-[white] border-[1px] rounded-full border-[var(--dark-secondary-text)]"
@@ -141,7 +144,7 @@ const Navbar = () => {
             color="black"
             className={`cursor-pointer `}
           />
-        </div>
+        </div> */}
         <div className="hidden items-center gap-5 md:flex">
           {NavbarUri?.map((singleProduct, index) => (
             <div className="flex flex-col items-baseline group/navbar justify-center">
@@ -157,6 +160,30 @@ const Navbar = () => {
           ))}
         </div>
         <div className="  flex items-center justify-center gap-3">
+        <div
+          className={` sm:px-5 px-3 ${
+            open
+              ? ""
+              : " bg-[white] border-[1px] rounded-full border-[var(--dark-secondary-text)]"
+          }  flex flex-row-reverse items-center justify-center `}
+        >
+            <div className="absolute left-2 right-2 top-14 px-2">
+            <input
+            type="search"
+            placeholder="Search Product"
+            onChange={(event) => setFilteredProduct(event.target.value)}
+            className={`  text-sm w-full py-2 sm:py-2 px-5 outline-none rounded-md ${
+              open ? "hidden" : ""
+            } `}
+          />
+</div>
+
+          <Search
+            onClick={() => setOpen(!open)}
+            color="black"
+            className={`cursor-pointer `}
+          />
+        </div>
           <button onClick={() => setOpenCart(!openCart)}>
             {" "}
             <LocalMallIcon />
@@ -195,17 +222,30 @@ const Navbar = () => {
           )}
         </div>
         <div
-          className={` px-6 top-14 absolute left-0 right-0 w-full flex justify-center items-center ${
+          className={` px-6  top-24 absolute left-0 right-0 w-full flex justify-center items-center ${
             open ? "hidden" : ""
           }`}
         >
           <div className=" w-[700px] overflow-y-auto flex flex-col items-stretch justify-start py-5 gap-5   h-[400px] bg-[white]   rounded-md">
-            {storeFilteredData?.map((singlProduct) => (
-              <ProductSearch
-                singlProduct={singlProduct}
-                key={singlProduct.id}
-              />
-            ))}
+            {filterProduct?.length <= 0 ? (
+              <div className="flex flex-col items-center gap-2 justify-center">
+                <Smile color="#133955" className="size-20" />
+               Find Your Product
+              </div>
+            ) : storeFilteredData <= 0 ? (
+              <div className="flex flex-col items-center gap-2 justify-center">
+              <Frown color="#133955" className="size-20"/>
+             Your Product Not Found
+              
+           </div>
+            ) : (
+              storeFilteredData?.map((singlProduct) => (
+                <ProductSearch
+                  singlProduct={singlProduct}
+                  key={singlProduct.id}
+                />
+              ))
+            )}
           </div>
         </div>
         <div

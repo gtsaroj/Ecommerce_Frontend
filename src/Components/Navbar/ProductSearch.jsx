@@ -1,7 +1,10 @@
 import React from "react";
 import { ShoppingCart } from "lucide-react";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../redux/cartReducer";
 
 const ProductSearch = ({ singlProduct }) => {
+  const dispatch = useDispatch()
   return (
     <div
       key={singlProduct.id}
@@ -16,7 +19,16 @@ const ProductSearch = ({ singlProduct }) => {
         {" "}
         {singlProduct.attributes.title}
       </h1>
-      <button className="px-7 py-1 bg-[var(--secondary-color)]">
+      <button onClick={() => dispatch(addToCart({
+        id: singlProduct.id,
+        title: singlProduct.attributes.title,
+        Img: singlProduct?.attributes.img.data.attributes.url,
+        desc: singlProduct.attributes.desc,
+        newPrice: singlProduct.attributes.newprice,
+        quantity : 1
+       
+        
+      }))} className="px-7 py-1 bg-[var(--secondary-color)]">
         <ShoppingCart />
       </button>
     </div>

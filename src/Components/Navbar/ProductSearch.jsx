@@ -8,7 +8,7 @@ const ProductSearch = ({ singlProduct }) => {
   return (
     <div
       key={singlProduct.id}
-      className="flex items-center justify-between px-16"
+      className="flex items-center justify-between sm:px-16 duration-150 cursor-pointer hover:bg-[#cfcbcb] p-1 rounded-md "
     >
       <img
         className="size-9 rounded-md"

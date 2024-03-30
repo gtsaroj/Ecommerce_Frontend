@@ -10,6 +10,7 @@ import avatar from "../photos/flag.png";
 import logo from "../photos/flag.png";
 import toast, { Toaster } from "react-hot-toast";
 import { uploadOnCloudinary } from "../../Cloudinary/Storage";
+import ReactLoading from "react-loading";
 
 export const RegisterContainer = () => {
   const navigate = useNavigate();
@@ -85,7 +86,7 @@ export const RegisterContainer = () => {
           password,
           avatar: imageUrl,
         };
-
+        SetDataSend(false);
         const dispatchingData = await dispatch(registerNewUser(ConvertedForm));
 
         if (!dispatchingData) {
@@ -142,7 +143,9 @@ export const RegisterContainer = () => {
                 />
               ) : (
                 <img
-                  src={avatar}
+                  src={
+                    "https://thinksport.com.au/wp-content/uploads/2020/01/avatar-.jpg"
+                  }
                   alt=""
                   className="rounded-full w-[100px] h-[100px] border-[1px] opacity-[0px] bg-[var(--light-background)] outline-none"
                 />
@@ -278,9 +281,16 @@ export const RegisterContainer = () => {
 
             <button
               type="submit"
-              className=" w-full h-[40px] text-lg  rounded-md bg-[var(--primary-color)] hover:bg-[var(--secondary-color)] text-[var(--light-text)] sm:text-xl font-bold tracking-wide transition-colors duration-500 ease-in-out mt-5"
+              className=" w-full h-[40px] text-lg flex items-center justify-center  rounded-md bg-[var(--primary-color)] hover:bg-[var(--secondary-color)] text-[var(--light-text)] sm:text-xl font-bold tracking-wide transition-colors duration-500 ease-in-out mt-5"
             >
-              {DataSend ? "Submit" : "Sending..."}
+              {DataSend ? (
+                "Submit"
+              ) : (
+                <div className="flex justify-center items-center">
+                  {" "}
+                  Sending <ReactLoading className="" type="bubbles" />
+                </div>
+              )}
             </button>
           </form>
           <p

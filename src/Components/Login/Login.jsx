@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { LoginUser } from "../../redux/LoginAction";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
+import ReactLoading from "react-loading";
 
 const LoginContainer = () => {
   const navigate = useNavigate();
@@ -13,8 +14,8 @@ const LoginContainer = () => {
   const [password, setPassword] = useState("");
   const [show, setShow] = useState(false);
   const [passwordType, setPasswordType] = useState("password");
-  const [dataSend, setDataSend] = useState(true);
-  const dispatch = useDispatch()
+  const [dataSend, setDataSend] = useState(false);
+  const dispatch = useDispatch();
 
   const showPassword = () => {
     setShow((show) => !show);
@@ -24,10 +25,13 @@ const LoginContainer = () => {
   const LoginFormSubmit = async (event) => {
     event.preventDefault();
     try {
-   dispatch(LoginUser({email, password}))
+      setDataSend(true);
+      await dispatch(LoginUser({ email, password }));
+      toast.success("Welcome")
     } catch (error) {
       console.error(`Error occuring while sending form : ${error}`);
     }
+    setDataSend(false);
   };
 
   return (
@@ -50,7 +54,7 @@ const LoginContainer = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="border-[var(--light-border)] focus:border-transparent focus:bg-[var(--light-border)] border bg-transparent rounded-md h-[40px] outline-none px-5 py-3 text-md"
+                className="border-[var(--light-border)]  focus:bg-[var(--light-border)] border bg-transparent rounded-md h-[40px] outline-none px-5 py-3 text-md"
               />
             </div>
             <div className="relative flex flex-col gap-2">
@@ -65,7 +69,7 @@ const LoginContainer = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="border-[var(--light-border)] focus:border-transparent focus:bg-[var(--light-border)] border bg-transparent rounded-md h-[40px] outline-none px-5 py-3 text-md"
+                className="border-[var(--light-border)]  focus:bg-[var(--light-border)] border bg-transparent rounded-md h-[40px] outline-none px-5 py-3 text-md"
               />
 
               {show ? (
@@ -91,8 +95,15 @@ const LoginContainer = () => {
             >
               Forgot Password?
             </p>
-            <button className="h-[40px] rounded-md bg-[var(--primary-color)] hover:bg-[var(--secondary-color)] text-[var(--light-text)] text-xl font-bold tracking-wide transition-colors duration-500 ease-in-out mt-5 ">
-              {dataSend ? "Submit" : "sending..."}
+            <button className="h-[40px] flex items-center justify-center rounded-md bg-[var(--primary-color)] hover:bg-[var(--secondary-color)] text-[var(--light-text)] text-xl font-bold tracking-wide transition-colors duration-500 ease-in-out mt-5 ">
+              {dataSend ? (
+                <div className="flex justify-center items-center">
+                  {" "}
+                  Sending <ReactLoading className="" type="bubbles" />
+                </div>
+              ) : (
+                "Submit"
+              )}
             </button>
             <p
               className="text-[var(--dark-secondary-text)] text-sm cursor-pointer hover:underline text-center mt-2 select-none"

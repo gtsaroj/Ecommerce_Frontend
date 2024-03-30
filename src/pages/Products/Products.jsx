@@ -83,26 +83,26 @@ const Products = () => {
             <Filter />
           </button>
           <div
-            className={`left transition-all px-2 bg-[var(--secondary-dark-text)] sm:flex-col absolute h-screen  ${
+            className={`left transition-all px-2 top-[-32px] bg-[var(--secondary-dark-text)] sm:flex-col absolute h-screen  ${
               filtered ? "right-[-10px] z-[5]" : "right-[-300px]"
             }`}
           >
             <div className="filterItem">
-              <div
-                className="cursor-pointer flex justify-end"
+              <button
+                className="  w-full flex justify-end"
                 onClick={() => setFiltered(!filtered)}
               >
-                {" "}
                 <X />
-              </div>
+              </button>
               <h3>Product Categories</h3>
               {subcategories?.map((item) => (
-                <div className="inputItem" key={item.id}>
+                <div className="inputItem flex items-center justify-start gap-2" key={item.id}>
                   <input
                     type={"checkbox"}
                     name="unique"
                     value={item.attributes.title}
                     onChange={handleChange}
+                    className="cursor-pointer"
                   />
                   <label id={item.title} htmlFor={item.id}>
                     {item.attributes.title}
@@ -119,6 +119,7 @@ const Products = () => {
                   value={maxPrice}
                   min={0}
                   max={10000}
+                  className="cursor-pointer"
                   onChange={(e) => PriceChange(e.target.value)}
                 />
                 <span>{maxPrice}</span>
@@ -130,6 +131,7 @@ const Products = () => {
                 <input
                   type="radio"
                   id="asc"
+                  className="cursor-pointer"
                   value="1"
                   name="price"
                   onClick={() => lowerToHigher()}
@@ -142,6 +144,7 @@ const Products = () => {
                   id="desc"
                   value="1"
                   name="price"
+                  className="cursor-pointer"
                   onClick={() => higherToLower()}
                 />
                 <label htmlFor="asc">Price highest to lowest</label>
@@ -149,14 +152,15 @@ const Products = () => {
             </div>
           </div>
         </div>
-        <div className="left hidden md:flex sm:flex-col">
+        <div className="left hidden md:flex gap-10 sm:flex-col">
           <div className="filterItem">
             <h3>Product Categories</h3>
             {subcategories?.map((item) => (
-              <div className="inputItem" key={item.id}>
+              <div className="inputItem flex items-center justify-start gap-2" key={item.id}>
                 <input
                   type={"checkbox"}
                   name="unique"
+                  className="cursor-pointer"
                   value={item.attributes.title}
                   onChange={handleChange}
                 />

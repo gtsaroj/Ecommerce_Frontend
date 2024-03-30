@@ -5,6 +5,7 @@ import { authLogout } from "../../redux/AuthReducer";
 
 const AuthProfile = ({ user }) => {
   const dispatch = useDispatch();
+  console.log(user)
   const handleLogout = () => {
     Cookies.remove("accessToken");
     dispatch(authLogout());

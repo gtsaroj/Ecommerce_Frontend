@@ -33,22 +33,23 @@ const Product = () => {
   };
 
   return (
-    <div className="product relative">
+    <div className="product relative px-5">
       <div
-        className={`flex justify-evenly gap-20 items-center w-full ${
+        className={`flex md:flex-row flex-col justify-evenly gap-20 items-center w-full ${
           loading ? "blur-sm" : ""
         }`}
       >
-        <div className="left">
-          <div className="images">
+        <div className="left flex flex-col-reverse   md:flex-row">
+          <div className="images flex md:flex-col flex-row gap-2">
             <img
               src={data?.attributes.img?.data?.attributes?.url}
               alt=""
-              onClick={(e) => setselectedImg(`img`)}
+               className="w-full cursor-pointer  h-[150px]" onClick={(e) => setselectedImg(`img`)}
             />
             <img
               src={data?.attributes.img2?.data?.attributes?.url}
               alt=""
+              className="w-full  cursor-pointer h-[150px]" 
               onClick={(e) => setselectedImg(`img2`)}
             />
           </div>
@@ -56,6 +57,7 @@ const Product = () => {
             <img
               src={data?.attributes[selectedImg]?.data?.attributes?.url}
               alt=""
+              className="w-full cursor-pointer md:h-full  h- rounded-md"
             />
           </div>
         </div>
@@ -64,9 +66,9 @@ const Product = () => {
           <span className="price">{data?.attributes?.newprice}</span>
           <p>{data?.attributes?.desc}</p>
           <div className="quantity">
-            <button onClick={() => setquantity((prev) => prev + 1)}>+</button>
+            <button className="bg-[var(--light-foreground)] font-bold rounded-md" onClick={() => setquantity((prev) => prev + 1)}>+</button>
             <h2>{quantity}</h2>
-            <button
+            <button className="bg-[var(--light-foreground)] font-bold rounded-md"
               onClick={() => setquantity((prev) => (prev === 1 ? 1 : prev - 1))}
             >
               -

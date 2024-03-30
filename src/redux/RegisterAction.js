@@ -11,6 +11,7 @@ export const getAccessAndRefreshToken = async (email, password) => {
   });
   const data = await responseData.data;
 
+
   Cookies.set("accessToken", data.jwt, {
     expires: 7,
     secure: true,
@@ -34,7 +35,7 @@ export const registerNewUser = createAsyncThunk(
       });
       const responseData = await response.data;
       await getAccessAndRefreshToken(email, password);
-      return responseData.userInfo;
+      return responseData.user;
     } catch (error) {
       if (error.response && error.response.data.message) {
         return rejectWithValue(error.response.data.message);

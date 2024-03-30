@@ -16,6 +16,7 @@
 
   --light-text: #f5f3ef;
   --secondary-light-text: #dbdad6;
+  --light-foreground: #fbfbfb;
 }
 
 ::-webkit-scrollbar {

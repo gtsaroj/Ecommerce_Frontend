@@ -45,16 +45,16 @@ export const AuthNavbar = () => {
       </div>
       <div className="flex gap-[9px] items-center justify-center">
         <a href="#">
-          <TwitchIcon />
+          <TwitchIcon  className="size-6"/>
         </a>
         <a href="#">
-          <LinkedinIcon />
+          <LinkedinIcon className="size-6" />
         </a>
         <a href="#">
-          <FacebookIcon />
+          <FacebookIcon className="size-6" />
         </a>
         <a href="#">
-          <Github />
+          <Github  className="size-6"/>
         </a>
       </div>
     </div>
@@ -98,6 +98,8 @@ const Navbar = () => {
   }, [data, filterProduct]);
 
   const user = useSelector((state) => state.root.auth.userInfo);
+  const product = useSelector((state) => state.root.cart.products);
+  
 
   return (
     <div className="  flex flex-col items-center bg-[var(--light-text)] justify-center gap-2 sticky z-[10] top-[0px] shadow-md py-2">
@@ -108,14 +110,14 @@ const Navbar = () => {
             {menu ? <X /> : <MenuIcon />}
           </button>
           <div
-            className={` duration-200 w-[200px] gap-12 items-center bg-[var(--dark-text)] text-[var(--light-text)] top-10 h-screen z-10 absolute flex flex-col  ${
+            className={` duration-200  gap-12 items-center bg-[var(--dark-text)] text-[var(--light-text)] top-10 h-screen z-10 absolute flex flex-col  ${
               menu ? "left-[0]" : "left-[-1000px]"
             }`}
           >
             <h2>X MATO</h2>
-            <div className="flex flex-col items-baseline justify-center gap-10">
+            <div className="flex px-3 flex-col items-baseline justify-center gap-10">
               {NavbarUri?.map((singleProduct) => (
-                <div className="cursor-pointer text-[20px]">
+                <div className="hover:bg-[gray] px-8 rounded-sm w-full cursor-pointer text-[20px]"   onClick={() => navigate(`/products${singleProduct.URL}`)}>
                   {singleProduct.name}
                 </div>
               ))}
@@ -167,15 +169,19 @@ const Navbar = () => {
               : " bg-[white] border-[1px] rounded-full border-[var(--dark-secondary-text)]"
           }  flex flex-row-reverse items-center justify-center `}
         >
-            <div className="absolute left-2 right-2 top-14 px-2">
-            <input
+            <div className="absolute left-2 right-2 top-14 sm:px-20 px-2">
+              <div className={`relative  ${
+              open ? "hidden" : ""
+            }`} >
+              <input
             type="search"
             placeholder="Search Product"
             onChange={(event) => setFilteredProduct(event.target.value)}
-            className={`  text-sm w-full py-2 sm:py-2 px-5 outline-none rounded-md ${
-              open ? "hidden" : ""
-            } `}
-          />
+            className={`  text-sm w-full py-2 sm:py-2 px-5 outline-none rounded-md`}
+                />
+                <X className={`absolute right-4 top-2 cursor-pointer  `}  onClick={()=>setOpen(!open)}/>
+ </div>
+              
 </div>
 
           <Search
@@ -184,9 +190,10 @@ const Navbar = () => {
             className={`cursor-pointer `}
           />
         </div>
-          <button onClick={() => setOpenCart(!openCart)}>
+          <button  className="relative" onClick={() => setOpenCart(!openCart)}>
             {" "}
             <LocalMallIcon />
+            <p className="flex top-[-5px] right-1 size-4 items-center justify-center bg-slate-500 rounded-full absolute">{product?.length }</p>
           </button>
 
           <button>
@@ -240,10 +247,12 @@ const Navbar = () => {
            </div>
             ) : (
               storeFilteredData?.map((singlProduct) => (
-                <ProductSearch
+                <div className="px-2">
+                   <ProductSearch
                   singlProduct={singlProduct}
                   key={singlProduct.id}
                 />
+               </div>
               ))
             )}
           </div>

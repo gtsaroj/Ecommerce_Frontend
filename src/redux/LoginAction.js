@@ -21,6 +21,7 @@ export const LoginUser = createAsyncThunk(
         expires: 7,
         secure: true,
       });
+      console.log(responseData)
       return responseData.user;
     } catch (error) {
       if (error.response && error.response.data.message) {

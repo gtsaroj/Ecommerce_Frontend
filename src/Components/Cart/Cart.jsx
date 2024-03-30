@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { removeItem, resetCart } from "../../redux/cartReducer";
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
+import { ShoppingBagIcon } from "lucide-react";
 
 const Cart = () => {
   // =====================================USE DISPATCH===============================================================
@@ -55,32 +56,45 @@ const Cart = () => {
 
   const products = useSelector((state) => state.root.cart.products);
   return (
-    <div className="cart">
-      <h1>Products in Your Cart</h1>
-      {products?.map((item) => (
-        <div className="item" key={item.id}>
-          <img src={item.Img} alt="" />
-          <div className="details">
-            <h1>{item.title}</h1>
-            <p>{item.desc.substring(0, 100)}</p>
-            <div className="price">
-              {" "}
-              {item.quantity} ×{item.newPrice}
-            </div>
-          </div>
-          <DeleteOutlinedIcon
-            className="delete"
-            onClick={() => handleRemoveItem(item.id)}
-          />
+    <div className="cart sm:w-[400px] w-[300px] ">
+      <h1 className="text-sm">Products in Your Cart</h1>
+
+      {products?.length <= 0 ? (
+        <div className="flex flex-col gap-3 items-center justify-center">
+          <ShoppingBagIcon className="size-9" />
+          <h1 className="text-sm">Products in Your Cart</h1>
         </div>
-      ))}
+      ) : (
+        products?.map((item) => (
+          <div className="item" key={item.id}>
+            <img src={item.Img} alt="" />
+            <div className="details">
+              <h1>{item.title}</h1>
+              <p>{item.desc.substring(0, 100)}</p>
+              <div className="price">
+                {" "}
+                {item.quantity} ×{item.newPrice}
+              </div>
+            </div>
+            <DeleteOutlinedIcon
+              className="delete"
+              onClick={() => handleRemoveItem(item.id)}
+            />
+          </div>
+        ))
+      )}
 
       <div className="total">
         <span>SUBTOTAL</span>
         <span>${totalPrice()}</span>
       </div>
-      <button onClick={handlePayment}>PROCEED TO CHECKOUT</button>
-      <span className="reset" onClick={reset}>
+      <button className="rounded-sm" onClick={handlePayment}>
+        PROCEED TO CHECKOUT
+      </button>
+      <span
+        className="reset text-sm bg-[var(--primary-color)] text-white py-1 px-3 rounded-md"
+        onClick={reset}
+      >
         Reset Cart
       </span>
     </div>
